@@ -3,53 +3,6 @@ import 'package:laundry/app/views/home/home_view.dart';
 import 'package:laundry/app/views/order/order_view.dart';
 import 'package:laundry/app/views/profile/profile_view.dart';
 
-// class Dashboard extends StatefulWidget {
-//   const Dashboard({super.key});
-
-//   @override
-//   State<Dashboard> createState() => _DashboardState();
-// }
-
-// class _DashboardState extends State<Dashboard> {
-//   int _currentIndex = 0;
-
-//   late final List<Widget> _screens;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     // Dummy address values for testing; replace with real values if needed
-//     _screens = [
-//       HomeScreen(address: '', city: '', pincode: ''),
-//       const OrdersScreen(),
-//       const Center(child: Text("Profile")), // Replace with actual ProfileScreen
-//     ];
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: IndexedStack(index: _currentIndex, children: _screens),
-//       bottomNavigationBar: BottomNavigationBar(
-//         currentIndex: _currentIndex,
-//         onTap: (index) {
-//           setState(() {
-//             _currentIndex = index;
-//           });
-//         },
-//         selectedItemColor: Colors.blue,
-//         unselectedItemColor: Colors.grey,
-//         items: const [
-//           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-//           BottomNavigationBarItem(
-//               icon: Icon(Icons.shopping_bag), label: 'Orders'),
-//           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 class Dashboard extends StatefulWidget {
   final String address;
   final String city;

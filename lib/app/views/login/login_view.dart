@@ -21,6 +21,10 @@ class _LoginScreenState extends State<LoginScreen>
   final _loginFormKey = GlobalKey<FormState>();
   final _signupFormKey = GlobalKey<FormState>();
 
+  bool _loginPasswordVisible = true;
+  bool _signupPasswordVisible = true;
+  bool _signupConfirmPasswordVisible = true;
+
   // Login controllers
   final TextEditingController _loginEmailPhoneController =
       TextEditingController();
@@ -58,40 +62,43 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true, // Ensure this is true
       body: Center(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TabBar(
-                controller: _tabController,
-                labelColor: Colors.black,
-                unselectedLabelColor: Colors.grey,
-                indicatorColor: Colors.blue,
-                tabs: const [
-                  Tab(text: "Login"),
-                  Tab(text: "Signup"),
-                ],
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                height: 480,
-                child: TabBarView(
+        child: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TabBar(
                   controller: _tabController,
-                  children: [
-                    _buildLoginForm(),
-                    _buildSignupForm(),
+                  labelColor: Colors.black,
+                  unselectedLabelColor: Colors.grey,
+                  indicatorColor: Colors.blue,
+                  tabs: const [
+                    Tab(text: "Login"),
+                    Tab(text: "Signup"),
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 480,
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      _buildLoginForm(),
+                      _buildSignupForm(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -119,10 +126,22 @@ class _LoginScreenState extends State<LoginScreen>
           const SizedBox(height: 15),
           TextFormField(
             controller: _loginPasswordController,
-            obscureText: true,
+            obscureText: _loginPasswordVisible,
             decoration: InputDecoration(
               hintText: "Password",
               border: OutlineInputBorder(),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _loginPasswordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _loginPasswordVisible = !_loginPasswordVisible;
+                  });
+                },
+              ),
             ),
             validator: (value) {
               if (value == null || value.length < 6) {
@@ -271,10 +290,22 @@ class _LoginScreenState extends State<LoginScreen>
             const SizedBox(height: 15),
             TextFormField(
               controller: _signupPasswordController,
-              obscureText: true,
+              obscureText: _signupPasswordVisible,
               decoration: InputDecoration(
                 hintText: "Password",
                 border: OutlineInputBorder(),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _signupPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _signupPasswordVisible = !_signupPasswordVisible;
+                    });
+                  },
+                ),
               ),
               validator: (value) => value == null || value.length < 6
                   ? 'Password too short'
@@ -283,10 +314,23 @@ class _LoginScreenState extends State<LoginScreen>
             const SizedBox(height: 15),
             TextFormField(
               controller: _signupConfirmPasswordController,
-              obscureText: true,
+              obscureText: _signupConfirmPasswordVisible,
               decoration: InputDecoration(
                 hintText: "Confirm Password",
                 border: OutlineInputBorder(),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _signupConfirmPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _signupConfirmPasswordVisible =
+                          !_signupConfirmPasswordVisible;
+                    });
+                  },
+                ),
               ),
               validator: (value) {
                 if (value != _signupPasswordController.text)

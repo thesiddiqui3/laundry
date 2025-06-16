@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:laundry/app/views/login/login_view.dart';
 import 'package:laundry/app/views/splash_view.dart';
@@ -27,7 +25,7 @@ class OnboardingScreen extends StatelessWidget {
                 color: Colors.blue,
               ),
               SizedBox(height: 20),
-              
+
               // Title
               Text(
                 'Laundry on the Go',
@@ -38,7 +36,7 @@ class OnboardingScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 40),
-              
+
               // Get Started Button
               ElevatedButton(
                 onPressed: () {
@@ -49,8 +47,8 @@ class OnboardingScreen extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  onPrimary: Colors.white,
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.blue,
                   padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),

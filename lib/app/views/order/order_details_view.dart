@@ -162,11 +162,6 @@ class OrderDetailsScreen extends StatelessWidget {
               ),
             ),
 
-            // User Name
-            // Text(
-            //   order['name'] ?? "Customer Name",
-            //   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            // ),
             // User Name and Phone
             FutureBuilder<DocumentSnapshot>(
               future: FirebaseFirestore.instance
