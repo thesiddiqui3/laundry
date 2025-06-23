@@ -45,18 +45,43 @@ class AdminSettingsTab extends StatelessWidget {
   }
 
   Future<void> _logoutAdmin(BuildContext context) async {
+    // Show full-screen loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent dismissing by tapping outside
+      builder: (context) => WillPopScope(
+        onWillPop: () async => false, // Prevent dismissing by back button
+        child: Container(
+          color: Colors.black.withOpacity(0.5), // Semi-transparent background
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      ),
+    );
+
     try {
+      // Perform logout operations
       await FirebaseAuth.instance.signOut();
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool("is_admin_logged_in", false);
+
+      // Close the loading dialog
+      if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
+
+      // Navigate to login screen
       if (context.mounted) {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (_) =>  LoginScreen()),
+          MaterialPageRoute(builder: (_) => LoginScreen()),
           (route) => false,
         );
       }
     } catch (e) {
+      // Close the loading dialog
+      if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
+
+      // Show error message
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

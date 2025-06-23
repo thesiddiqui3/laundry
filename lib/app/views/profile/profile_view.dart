@@ -95,28 +95,28 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Future<void> logout(BuildContext context) async {
-    showDialog(
-      context: context,
+    Get.dialog(
+      WillPopScope(
+        onWillPop: () async => false,
+        child: Container(
+          color: Colors.black.withOpacity(0.5),
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      ),
       barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator()),
     );
 
     try {
-      // 2. Clear SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool("is_user_logged_in", false);
       await AuthService().signOut();
-      Navigator.of(context).pop(); // close spinner
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => LoginScreen()),
-        (route) => false,
-      );
+      Get.back(); // Close dialog
+      Get.offAll(() => LoginScreen());
     } catch (e) {
-      Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Logout failed: $e')),
-      );
+      Get.back(); // Close dialog
+      Get.snackbar('Logout Failed', e.toString());
     }
   }
 }

@@ -7,6 +7,7 @@ class ProfileController extends GetxController {
   var name = ''.obs;
   var email = ''.obs;
   var phone = ''.obs;
+  
 
   /// Stream for real-time user profile updates
   Stream<DocumentSnapshot<Map<String, dynamic>>> get userProfileStream {
