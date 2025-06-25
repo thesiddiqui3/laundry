@@ -60,107 +60,63 @@ class _LoginScreenState extends State<LoginScreen>
     super.dispose();
   }
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    resizeToAvoidBottomInset: true,
-    body: Stack(
-      children: [
-        Center(
-          child: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TabBar(
-                    controller: _tabController,
-                    labelColor: Colors.black,
-                    unselectedLabelColor: Colors.grey,
-                    indicatorColor: Colors.blue,
-                    tabs: const [
-                      Tab(text: "Login"),
-                      Tab(text: "Signup"),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 480,
-                    child: TabBarView(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: Stack(
+        children: [
+          Center(
+            child: SingleChildScrollView(
+              child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TabBar(
                       controller: _tabController,
-                      children: [
-                        _buildLoginForm(),
-                        _buildSignupForm(),
+                      labelColor: Colors.black,
+                      unselectedLabelColor: Colors.grey,
+                      indicatorColor: Colors.blue,
+                      tabs: const [
+                        Tab(text: "Login"),
+                        Tab(text: "Signup"),
                       ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      height: 480,
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          _buildLoginForm(),
+                          _buildSignupForm(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        if (_isLoggingIn)
-          Container(
-            color: Colors.black.withOpacity(0.5),
-            child: Center(
-              child: CircularProgressIndicator(),
+          if (_isLoggingIn)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
-          ),
-      ],
-    ),
-  );
-}
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     resizeToAvoidBottomInset: true, // Ensure this is true
-  //     body: Center(
-  //       child: SingleChildScrollView(
-  //         child: Container(
-  //           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
-  //           padding: const EdgeInsets.all(20),
-  //           decoration: BoxDecoration(
-  //             color: Colors.white,
-  //             borderRadius: BorderRadius.circular(15),
-  //             boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
-  //           ),
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               TabBar(
-  //                 controller: _tabController,
-  //                 labelColor: Colors.black,
-  //                 unselectedLabelColor: Colors.grey,
-  //                 indicatorColor: Colors.blue,
-  //                 tabs: const [
-  //                   Tab(text: "Login"),
-  //                   Tab(text: "Signup"),
-  //                 ],
-  //               ),
-  //               const SizedBox(height: 20),
-  //               SizedBox(
-  //                 height: 480,
-  //                 child: TabBarView(
-  //                   controller: _tabController,
-  //                   children: [
-  //                     _buildLoginForm(),
-  //                     _buildSignupForm(),
-  //                   ],
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+        ],
+      ),
+    );
+  }
 
   Widget _buildLoginForm() {
     return Form(
@@ -227,14 +183,6 @@ Widget build(BuildContext context) {
                   : Text("Login"),
             ),
           ),
-          // SizedBox(
-          //   width: double.infinity,
-          //   height: 45,
-          //   child: ElevatedButton(
-          //     onPressed: _handleLogin,
-          //     child: Text("Login"),
-          //   ),
-          // ),
           const SizedBox(height: 15),
           Text("or", style: TextStyle(color: Colors.grey)),
           const SizedBox(height: 15),
@@ -326,76 +274,6 @@ Widget build(BuildContext context) {
       }
     }
   }
-
-  // Future<void> _handleLogin() async {
-  //   if (_loginFormKey.currentState!.validate()) {
-  //     try {
-  //       User? user = await _auth.login(
-  //         _loginEmailPhoneController.text.trim(),
-  //         _loginPasswordController.text.trim(),
-  //       );
-
-  //       if (user != null) {
-  //         final prefs = await SharedPreferences.getInstance();
-
-  //         // Admin login flow
-  //         if (_loginEmailPhoneController.text.trim() == "admin@laundry.com") {
-  //           await prefs.setBool('is_admin_logged_in', true);
-  //           Navigator.pushReplacement(
-  //             context,
-  //             MaterialPageRoute(builder: (_) => AdminDashboard()),
-  //           );
-  //           return;
-  //         }
-
-  //         // Regular user flow
-  //         await prefs.setBool('is_user_logged_in', true);
-
-  //         // Check if user has address
-  //         final userDoc = await FirebaseFirestore.instance
-  //             .collection('users')
-  //             .doc(user.uid)
-  //             .get();
-
-  //         bool hasAddress = userDoc.exists &&
-  //             userDoc.data()?['addresses'] != null &&
-  //             (userDoc.data()!['addresses'] as List).isNotEmpty;
-
-  //         if (!hasAddress) {
-  //           // First time or no address - go to address screen
-  //           await prefs.setBool('is_user_first_logged_in', false);
-  //           Navigator.pushReplacement(
-  //             context,
-  //             MaterialPageRoute(builder: (_) => EnterAddressScreen()),
-  //           );
-  //         } else {
-  //           // Has address - go to dashboard with address data
-  //           final addresses = userDoc.data()!['addresses'] as List;
-  //           final lastAddress = addresses.last;
-
-  //           Navigator.pushReplacement(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (_) => Dashboard(
-  //                 address: lastAddress['address'] ?? '',
-  //                 city: lastAddress['city'] ?? '',
-  //                 pincode: lastAddress['pincode'] ?? '',
-  //               ),
-  //             ),
-  //           );
-  //         }
-  //       } else {
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           SnackBar(content: Text('Invalid credentials')),
-  //         );
-  //       }
-  //     } catch (e) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(content: Text('Login failed: ${e.toString()}')),
-  //       );
-  //     }
-  //   }
-  // }
 
   Widget _buildSignupForm() {
     return Form(
