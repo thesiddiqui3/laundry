@@ -172,6 +172,8 @@
 //   }
 // }
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -209,8 +211,8 @@ class OrdersScreen extends StatelessWidget {
             OrdersList(status: "Pending"),
             OrdersList(status: "InProgress"),
             OrdersList(status: "Completed"),
-            OrdersList(status: "cancelByUser"),
-            OrdersList(status: "cancelByAdmin"),
+            OrdersList(status: "CancelledByUser"),
+            OrdersList(status: "CancelledByAdmin"),
           ],
         ),
       ),
@@ -238,9 +240,11 @@ class OrdersList extends StatelessWidget {
         .orderBy('createdAt', descending: true)
         .snapshots();
   }
+  
 
   @override
   Widget build(BuildContext context) {
+    
     return StreamBuilder<QuerySnapshot>(
       stream: getPickupStream(),
       builder: (context, snapshot) {
@@ -263,6 +267,7 @@ class OrdersList extends StatelessWidget {
           itemCount: docs.length,
           itemBuilder: (context, index) {
             final order = docs[index].data() as Map<String, dynamic>;
+            log(order.toString());
             order['docId'] = docs[index].id;
             order['userId'] = FirebaseAuth.instance.currentUser!.uid;
             
